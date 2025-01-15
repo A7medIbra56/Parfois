@@ -1,77 +1,98 @@
+import styles from "./styles.module.css";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import InputGroup from "react-bootstrap/InputGroup";
 import { BsSearch } from "react-icons/bs";
-import { HeaderBasket } from "@components/index";
-import { NavLink } from "react-router-dom";
+import { HeaderBasket, PersonIcon , Nav_Link } from "@components/index";
+
 function Header() {
-  return (
+ return (
     <header>
-      <Navbar expand="lg" className="bg-body-tertiary">
-        <Container fluid>
-          <img src="src\assets\logo.svg" alt="000" />
-          <Navbar.Toggle aria-controls="navbarScroll" />
-          <Navbar.Collapse id="navbarScroll">
-            <Nav
-              className="me-auto m-5 my-lg-0"
-              style={{ maxHeight: "300px" }}
-              navbarScroll
-            >
-              <Nav.Link as={NavLink} to="/">Home</Nav.Link>
-              <Nav.Link  as={NavLink} to="/cart">Cart</Nav.Link>
-              <Nav.Link  as={NavLink} to="/wishlist">Wishlist</Nav.Link>
-              <Nav.Link  as={NavLink} to="/products">Products</Nav.Link>
-              <Nav.Link  as={NavLink} to="/categories">Categories</Nav.Link>
-              <Nav.Link  as={NavLink} to="/brands">Brands</Nav.Link>
-            </Nav>
-            <Form
-              style={{
-                borderRadius: "0",
-                display: "flex",
-                borderBottom: "2px solid black",
-              }}
-            >
-              <InputGroup.Text
-                id="search-icon"
+      <Navbar>
+        <div className={styles.navbarParfois}>
+          <img
+            src="src/assets/logo.png"
+            alt="logo"
+            style={{
+              width: "150px",
+              height: "auto",
+            }}
+          />
+        </div>
+      </Navbar>
+      <Navbar expand="lg" className={`${styles.navbarCustom} bg-body-tertiary`}>
+        <Container>
+          <Navbar.Collapse
+            id="navbarScroll"
+            className="d-flex justify-content-between w-100"
+          >
+            <div className="d-flex ms-auto align-items-center">
+              <Navbar >
+                <img
+                  src="src/assets/logo.png"
+                  alt="logo"
+                  className={styles.navbarParfoisI}
+                  style={{
+                    width: "150px",
+                    height: "auto",
+                    marginRight: "200px",
+                  }}
+                />
+              </Navbar>
+              <Form
+                className={styles.formSearch}
                 style={{
-                  background: "white",
-                  border: "none",
-                  borderRadius: "0px",
+                  borderRadius: "0",
+                  display: "flex",
+                  borderBottom: "2px solid black",
+                  marginRight: "10px",
                 }}
               >
-                <BsSearch />
-              </InputGroup.Text>
-              <InputGroup>
-                <Form.Control
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
+                <div></div>
+                <InputGroup.Text
+                  id="search-icon"
                   style={{
-                    boxShadow: "none",
+                    background: "white",
                     border: "none",
                     borderRadius: "0px",
                   }}
-                />
-              </InputGroup>
-            </Form>
-        
-          <div style={{margin:"10px"}}> <HeaderBasket/></div>
-           
-            <Nav
-              className=" my-lg-0"
-              style={{ maxHeight: "100px" , fontSize:"20px"}}
-            >
-              <Nav.Link as={NavLink} to="login">Login</Nav.Link>
-              <Nav.Link as={NavLink} to="register">Register</Nav.Link>
-            </Nav>
-
+                >
+                  <BsSearch />
+                </InputGroup.Text>
+                <InputGroup>
+                  <Form.Control
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                    style={{
+                      boxShadow: "none",
+                      border: "none",
+                      borderRadius: "0px",
+                    }}
+                  />
+                </InputGroup>
+              </Form>
+              <div className={styles.towIcon}>
+                <div style={{ margin: "0 10px" }}>
+                  <HeaderBasket />
+                </div>
+                <Nav
+                  className="my-lg-0"
+                  style={{ maxHeight: "100px", fontSize: "20px" }}
+                >
+                  <div>
+                    <PersonIcon />
+                  </div>
+                </Nav>
+              </div>
+            </div>
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <Nav_Link/>
     </header>
   );
 }
-
 export default Header;

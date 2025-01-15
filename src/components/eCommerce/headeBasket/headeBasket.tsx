@@ -9,5 +9,4 @@ const HeaderBasket = () => {
     </div>
   );
 };
-
 export default HeaderBasket;

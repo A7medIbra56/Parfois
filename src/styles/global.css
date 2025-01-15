@@ -1,4 +1,16 @@
+body
+{
+    font-family: Open Sans, Arial, sans-serif;
+}
 .active
 {
     border-bottom : solid 1px;
 }
+.nav-link {
+    color: black !important;
+  }
+  
+  .nav-link.active {
+    color: red !important;
+  }
+  
