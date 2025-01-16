@@ -31,7 +31,7 @@ function Header() {
             <div className="d-flex ms-auto align-items-center">
               <Navbar >
                 <img
-                  src="assets/logo.png"
+                  src="/assets/logo.png"
                   alt="logo"
                   className={styles.navbarParfoisI}
                   style={{
