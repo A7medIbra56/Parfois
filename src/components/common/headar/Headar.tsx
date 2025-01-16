@@ -13,7 +13,7 @@ function Header() {
       <Navbar>
         <div className={styles.navbarParfois}>
           <img
-            src="src/assets/logo.png"
+            src="assets/logo.png"
             alt="logo"
             style={{
               width: "150px",
