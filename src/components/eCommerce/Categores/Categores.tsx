@@ -1,11 +1,17 @@
+import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import { ApiGetCategories } from "@services/apiGetCategories/ApiGetCategories";
-import { useEffect, useState } from "react";
 
-function Categores() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+// Define types for the category data structure
+interface Category {
+  image: string;
+  name: string;
+}
+
+const Categories: React.FC = () => {
+  const [data, setData] = useState<Category[]>([]); // State for category data
+  const [loading, setLoading] = useState<boolean>(true); // State for loading status
+  const [error, setError] = useState<Error | null>(null); // State for error
 
   useEffect(() => {
     const getData = async () => {
@@ -13,7 +19,7 @@ function Categores() {
         const result = await ApiGetCategories();
         setData(result.data);
       } catch (error) {
-        setError(error);
+        setError(error as Error);
       } finally {
         setLoading(false);
       }
@@ -21,6 +27,15 @@ function Categores() {
 
     getData();
   }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
   return (
     <section
       style={{
@@ -43,5 +58,6 @@ function Categores() {
       ))}
     </section>
   );
-}
-export default Categores;
+};
+
+export default Categories;
