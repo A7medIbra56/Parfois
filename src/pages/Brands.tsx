@@ -1,8 +1,9 @@
+import { Brand } from "@components/index";
 
 export default function Brands() {
   return (
     <div>
-      Brands
+      <Brand />
     </div>
-  )
+  );
 }
