@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
-import { ApiGetCategories } from "@services/index";
 import { Spinner } from "react-bootstrap";
 import styles from "./styles.module.css";
+import { ApiGetBrands } from "@services/index";
 
 // Define types for the category data structure
 interface Category {
@@ -11,14 +11,14 @@ interface Category {
   id: number;
 }
 
-const Categories: React.FC = () => {
+const Brand: React.FC = () => {
   const [data, setData] = useState<Category[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const result = await ApiGetCategories();
+        const result = await ApiGetBrands();
         setData(result.data);
       } catch (error) {
         return error;
@@ -40,9 +40,6 @@ const Categories: React.FC = () => {
         data.map((item, i) => (
           <Card key={i} className={styles.customCard}>
             <Card.Img variant="top" src={item.image} />
-            <Card.Body className={styles.customCardBody}>
-              <Card.Title>{item.name}</Card.Title>
-            </Card.Body>
           </Card>
         ))
       )}
@@ -50,4 +47,4 @@ const Categories: React.FC = () => {
   );
 };
 
-export default Categories;
+export default Brand;
