@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import { ApiGetCategories } from "@services/index";
-import { Spinner } from "react-bootstrap";
+import { Nav, Spinner } from "react-bootstrap";
 import styles from "./styles.module.css";
-
+import { NavLink } from "react-router-dom";
 // Define types for the category data structure
 interface Category {
   image: string;
   name: string;
-  id: number;
+  _id: number;
 }
 
 const Categories: React.FC = () => {
@@ -38,12 +38,14 @@ const Categories: React.FC = () => {
         </div>
       ) : (
         data.map((item, i) => (
+          <Nav.Link as={NavLink} to={`/itemDetails/${item._id}`}>
           <Card key={i} className={styles.customCard}>
             <Card.Img variant="top" src={item.image} />
             <Card.Body className={styles.customCardBody}>
               <Card.Title>{item.name}</Card.Title>
             </Card.Body>
           </Card>
+        </Nav.Link>
         ))
       )}
     </section>

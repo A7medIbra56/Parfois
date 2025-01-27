@@ -1,0 +1,32 @@
+
+.productList {
+  display: flex;
+}
+
+.sidebar {
+  width: 200px;
+  padding: 20px;
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+.product {
+  width: 200px;
+  text-align: center;
+}
+
+.product img {
+  width: 100%;
+  height: auto;
+}
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
