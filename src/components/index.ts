@@ -4,5 +4,6 @@ import  Nav_Link from "./eCommerce/navLink/NavLink"
 import Carousel from "./eCommerce/Carousel/Carousel";
 import Categories from "./eCommerce/Categores/Categores";
 import Brand from "./eCommerce/brands/Brand";
+import CardDetails from "./eCommerce/cardDetails/CardDetails";
 
-export {HeaderBasket , PersonIcon , Nav_Link ,Carousel , Categories , Brand}
+export {HeaderBasket , PersonIcon , Nav_Link ,Carousel , Categories , Brand , CardDetails}
