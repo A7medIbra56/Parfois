@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const ApiGitItemProduct = async () => {
+export const ApiGitItemProduct = async (categoryId: string) => {
   try {
     const response = await axios.get(
-      `https://ecommerce.routemisr.com/api/v1/products?category[in]=6439d58a0049ad0b52b9003f`
+      `https://ecommerce.routemisr.com/api/v1/products?category[in]=${categoryId}`
     );
     return response.data;
   } catch (error) {
@@ -11,4 +11,3 @@ export const ApiGitItemProduct = async () => {
     throw error;
   }
 };
-ApiGitItemProduct();
