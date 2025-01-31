@@ -4,7 +4,6 @@ import { ApiGetCategories } from "@services/index";
 import { Nav, Spinner } from "react-bootstrap";
 import styles from "./styles.module.css";
 import { NavLink } from "react-router-dom";
-// Define types for the category data structure
 interface Category {
   image: string;
   name: string;
@@ -18,8 +17,8 @@ const Categories: React.FC = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const result = await ApiGetCategories();
-        setData(result.data);
+        const { data } = await ApiGetCategories();
+        setData(data);
       } catch (error) {
         return error;
       } finally {
@@ -37,15 +36,15 @@ const Categories: React.FC = () => {
           <Spinner animation="grow" variant="secondary" />
         </div>
       ) : (
-        data.map((item, i) => (
+        data.map((item) => (
           <Nav.Link as={NavLink} to={`/itemDetails/${item._id}`}>
-          <Card key={i} className={styles.customCard}>
-            <Card.Img variant="top" src={item.image} />
-            <Card.Body className={styles.customCardBody}>
-              <Card.Title>{item.name}</Card.Title>
-            </Card.Body>
-          </Card>
-        </Nav.Link>
+            <Card key={item._id} className={styles.customCard}>
+              <Card.Img variant="top" src={item.image} />
+              <Card.Body className={styles.customCardBody}>
+                <Card.Title>{item.name}</Card.Title>
+              </Card.Body>
+            </Card>
+          </Nav.Link>
         ))
       )}
     </section>
