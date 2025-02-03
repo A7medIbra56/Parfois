@@ -4,6 +4,7 @@ import { ApiGetCategories } from "@services/index";
 import { Nav, Spinner } from "react-bootstrap";
 import styles from "./styles.module.css";
 import { NavLink } from "react-router-dom";
+
 interface Category {
   image: string;
   name: string;
@@ -18,17 +19,17 @@ const Categories: React.FC = () => {
     const getData = async () => {
       try {
         const { data } = await ApiGetCategories();
-        setData(data);
+        setData(
+          data.filter((_: never, index: never) => [1, 2, 9].includes(index))
+        );
       } catch (error) {
         return error;
       } finally {
         setLoading(false);
       }
     };
-
     getData();
   }, []);
-
   return (
     <section className={styles.cardContainer}>
       {loading ? (
@@ -37,8 +38,8 @@ const Categories: React.FC = () => {
         </div>
       ) : (
         data.map((item) => (
-          <Nav.Link as={NavLink} to={`/itemDetails/${item._id}`}>
-            <Card key={item._id} className={styles.customCard}>
+          <Nav.Link as={NavLink} to={`/itemDetails/${item._id}`} key={item._id}>
+            <Card className={styles.customCard}>
               <Card.Img variant="top" src={item.image} />
               <Card.Body className={styles.customCardBody}>
                 <Card.Title>{item.name}</Card.Title>
@@ -50,5 +51,4 @@ const Categories: React.FC = () => {
     </section>
   );
 };
-
 export default Categories;

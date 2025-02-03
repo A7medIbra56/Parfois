@@ -1,9 +1,10 @@
-import { CardDetails } from "@components/index";
+import { ProductsShow } from "@components/index";
+
 
 export default function Products() {
   return (
     <div>
-      <CardDetails/>
+      <ProductsShow/>
     </div>
   )
 }
