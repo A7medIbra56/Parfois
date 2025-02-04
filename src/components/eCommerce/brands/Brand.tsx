@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
-import { Spinner } from "react-bootstrap";
 import styles from "./styles.module.css";
 import { ApiGetBrands } from "@services/index";
 
-// Define types for the category data structure
 interface Category {
   image: string;
   name: string;
@@ -20,6 +18,7 @@ const Brand: React.FC = () => {
       try {
         const result = await ApiGetBrands();
         setData(result.data);
+        setLoading(true);
       } catch (error) {
         return error;
       } finally {
@@ -34,8 +33,8 @@ const Brand: React.FC = () => {
     <section className={styles.cardContainer}>
       {loading ? (
         <div className={styles.spinnerContainer}>
-          <Spinner animation="grow" variant="secondary" />
-        </div>
+        <div className={styles.spinner}></div>
+      </div>
       ) : (
         data.map((item, i) => (
           <Card key={i} className={styles.customCard}>

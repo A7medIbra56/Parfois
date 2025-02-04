@@ -1,4 +1,4 @@
-import { Carousel, Categories } from "@components/index";
+import { Carousel, ProductsShow } from "@components/index";
 import { Card, Container } from "react-bootstrap";
 
 export default function Home() {
@@ -7,7 +7,7 @@ export default function Home() {
       <Card.Body>
         <Carousel />
         <Container>
-          <Categories />
+        <ProductsShow/>
         </Container>
       </Card.Body>
     </div>

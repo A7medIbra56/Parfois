@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Spinner, Card, Form } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Form,
+  Nav,
+} from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 import styles from "./styles.module.css";
 import { ApiGetProducts } from "@services/index";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart, AiOutlineClose } from "react-icons/ai";
+import { RiApps2Fill } from "react-icons/ri";
 
 interface Product {
   id: string;
@@ -27,7 +36,9 @@ const ProductsShow: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<number>(3000000);
-  const [sortOption, setSortOption] = useState<string>(""); 
+  const [sortOption, setSortOption] = useState<string>("");
+  const [showSidebar, setShowSidebar] = useState<boolean>(false);
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -78,6 +89,10 @@ const ProductsShow: React.FC = () => {
     setSortOption(event.target.value);
   };
 
+  const toggleSidebar = () => {
+    setShowSidebar(!showSidebar);
+  };
+
   let filteredProducts = data.filter(
     (product) =>
       (selectedCategories.length === 0 ||
@@ -94,7 +109,23 @@ const ProductsShow: React.FC = () => {
   return (
     <Container fluid className={styles.productList}>
       <Row>
-        <Col md={3} className={styles.sidebar}>
+        <div
+          className={`${styles.filterIcon} d-md-none`}
+          onClick={toggleSidebar}
+        >
+          <RiApps2Fill size={24} />
+        </div>
+
+        <Col
+          md={3}
+          className={`${styles.sidebar} ${
+            showSidebar ? styles.showSidebar : styles.hideSidebar
+          }`}
+        >
+          <div className={styles.closeButton} onClick={toggleSidebar}>
+            <AiOutlineClose size={24} />
+          </div>
+
           <h2>Product</h2>
           {categories.map((item) => (
             <div key={item.id}>
@@ -114,7 +145,7 @@ const ProductsShow: React.FC = () => {
             <h5>Price</h5>
             <Form.Range
               min={0}
-              max={3000}
+              max={300000}
               value={priceRange}
               onChange={handlePriceChange}
             />
@@ -154,42 +185,44 @@ const ProductsShow: React.FC = () => {
         </Col>
         <Col md={9}>
           {loading ? (
-            <div className={styles.spinnerContainer}>
-              <Spinner animation="border" variant="secondary" />
-            </div>
+           <div className={styles.spinnerContainer}>
+           <div className={styles.spinner}></div>
+         </div>
           ) : (
             <Row className="g-4">
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((item) => (
                   <Col key={item.id} xs={12} sm={6} md={4} lg={3}>
-                    <Card className={`${styles.productCard} h-100`}>
-                      <div className={styles.cardImageWrapper}>
-                        <Card.Img
-                          variant="top"
-                          src={item.imageCover}
-                          alt={item.title}
-                          className={styles.cardImage}
-                        />
-                        <div
-                          className={styles.favoriteIcon}
-                          onClick={() => toggleFavorite(item.id)}
-                        >
-                          {favorites.includes(item.id) ? (
-                            <AiFillHeart color="red" size={24} />
-                          ) : (
-                            <AiOutlineHeart color="gray" size={24} />
-                          )}
+                    <Nav.Link as={NavLink} to={`/productDetails/${item.id}`}>
+                      <Card className={`${styles.productCard} h-100`}>
+                        <div className={styles.cardImageWrapper}>
+                          <Card.Img
+                            variant="top"
+                            src={item.imageCover}
+                            alt={item.title}
+                            className={styles.cardImage}
+                          />
+                          <div
+                            className={styles.favoriteIcon}
+                            onClick={() => toggleFavorite(item.id)}
+                          >
+                            {favorites.includes(item.id) ? (
+                              <AiFillHeart color="red" size={24} />
+                            ) : (
+                              <AiOutlineHeart color="gray" size={24} />
+                            )}
+                          </div>
                         </div>
-                      </div>
-                      <Card.Body className="d-flex flex-column">
-                        <Card.Title className={styles.cardTitle}>
-                          {item.title}
-                        </Card.Title>
-                        <Card.Text className={styles.cardPrice}>
-                          {item.price} EGP
-                        </Card.Text>
-                      </Card.Body>
-                    </Card>
+                        <Card.Body className="d-flex flex-column">
+                          <Card.Title className={styles.cardTitle}>
+                            {item.title}
+                          </Card.Title>
+                          <Card.Text className={styles.cardPrice}>
+                            {item.price} EGP
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                    </Nav.Link>
                   </Col>
                 ))
               ) : (
