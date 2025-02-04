@@ -7,12 +7,11 @@ import MainLayout from "@layouts/MainLayout/MainLayout";
 import Home from "@pages/Home";
 import Brands from "@pages/Brands";
 import Cart from "@pages/Cart";
-import Categories from "@pages/Categories";
 import Products from "@pages/Products";
 import Wishlist from "@pages/Wishlist";
 import Register from "@pages/Register";
 import Login from "@pages/Login";
-import ItemDetails from "@pages/ItemDetails";
+import GetProductDetails from "@pages/GetProductDetails";
 
 const AppRouter = () => {
   return (
@@ -20,10 +19,8 @@ const AppRouter = () => {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
-          <Route path="categories" element={<Categories />}>
-          </Route>
-          <Route path="/itemDetails" element={<ItemDetails />}>
-            <Route path=":id" element={<ItemDetails/>} />
+          <Route path="/productDetails" element={<GetProductDetails/>}>
+            <Route path=":id" element={<GetProductDetails/>} />
           </Route>
           <Route path="cart" element={<Cart />} />
           <Route path="wishlist" element={<Wishlist />} />

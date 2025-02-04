@@ -20,9 +20,6 @@ function Nav_Link() {
         <Nav.Link as={NavLink} to="/products">
           Products
         </Nav.Link>
-        <Nav.Link as={NavLink} to="/categories">
-          Categories
-        </Nav.Link>
         <Nav.Link as={NavLink} to="/brands">
           Brands
         </Nav.Link>

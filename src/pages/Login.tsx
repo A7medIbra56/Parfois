@@ -1,8 +1,9 @@
+import { LoginForm } from "@components/index";
 
 export default function Login() {
   return (
     <div>
-      Login
+      <LoginForm/>
     </div>
   )
 }
