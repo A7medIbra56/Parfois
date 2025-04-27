@@ -1,51 +1,75 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import axios from 'axios';
+
+interface FormValues {
+
+  email: string;
+  password: string;
+
+}
 
 const LoginForm: React.FC = () => {
- 
+  const navigate = useNavigate();
 
-   
+  
+  const handleSignup = async (values: FormValues) => {
+    
+      const { data } = await axios.post("https://ecommerce.routemisr.com/api/v1/auth/signin", values);
+      if(data.message === "success")
+      {
+     
+        navigate('/'); 
+      }else
+      {
+
+      }
+    
+      
+    
+  };
+
+  const formik = useFormik<FormValues>({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    onSubmit: handleSignup,
+  });
 
   return (
-    <form className="container mt-5" style={{ maxWidth: '600px' }}>
+    <form onSubmit={formik.handleSubmit} className="container mt-5" style={{ maxWidth:"650px" ,  marginBottom : '200px' , marginTop: '200px'}}>
       <div className="mb-3">
-        <label htmlFor="floating_email" className="form-label">Email address</label>
-        <input type="email" className="form-control" id="floating_email" name="floating_email" required />
+        <label htmlFor="email" className="form-label">Email address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          className="form-control"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+          required
+        />
       </div>
 
       <div className="mb-3">
-        <label htmlFor="floating_password" className="form-label">Password</label>
-        <input type="password" className="form-control" id="floating_password" name="floating_password" required />
+        <label htmlFor="password" className="form-label">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          className="form-control"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.password}
+          required
+        />
       </div>
 
-      <div className="mb-3">
-        <label htmlFor="floating_repeat_password" className="form-label">Confirm Password</label>
-        <input type="password" className="form-control" id="floating_repeat_password" name="repeat_password" required />
-      </div>
+    
 
-      <div className="row">
-        <div className="col-md-6 mb-3">
-          <label htmlFor="floating_first_name" className="form-label">First Name</label>
-          <input type="text" className="form-control" id="floating_first_name" name="floating_first_name" required />
-        </div>
-
-        <div className="col-md-6 mb-3">
-          <label htmlFor="floating_last_name" className="form-label">Last Name</label>
-          <input type="text" className="form-control" id="floating_last_name" name="floating_last_name" required />
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="col-md-6 mb-3">
-          <label htmlFor="floating_phone" className="form-label">Phone Number (123-456-7890)</label>
-          <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" className="form-control" id="floating_phone" name="floating_phone" required />
-        </div>
-
-        <div className="col-md-6 mb-3">
-          <label htmlFor="floating_company" className="form-label">Company (Ex. Google)</label>
-          <input type="text" className="form-control" id="floating_company" name="floating_company" required />
-        </div>
-      </div>
 
       <button type="submit" className="btn btn-primary">Submit</button>
     </form>
