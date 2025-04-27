@@ -1,66 +1,54 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./loginForm.module.css";
 
 const LoginForm: React.FC = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+ 
 
-  const navigate = useNavigate();
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch("https://ecommerce.routemisr.com/api/v1/auth/signin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.setItem("token", data.token);
-        window.dispatchEvent(new Event("storage")); 
-        navigate("/");
-      } else {
-        alert(`Login failed: ${data.message}`);
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-      alert("An error occurred during login.");
-    }
-  };
+   
 
   return (
-    <div className={styles.signupContainer}>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div className={styles.formGroup}>
-          <label>Email:</label>
-          <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+    <form className="container mt-5" style={{ maxWidth: '600px' }}>
+      <div className="mb-3">
+        <label htmlFor="floating_email" className="form-label">Email address</label>
+        <input type="email" className="form-control" id="floating_email" name="floating_email" required />
+      </div>
+
+      <div className="mb-3">
+        <label htmlFor="floating_password" className="form-label">Password</label>
+        <input type="password" className="form-control" id="floating_password" name="floating_password" required />
+      </div>
+
+      <div className="mb-3">
+        <label htmlFor="floating_repeat_password" className="form-label">Confirm Password</label>
+        <input type="password" className="form-control" id="floating_repeat_password" name="repeat_password" required />
+      </div>
+
+      <div className="row">
+        <div className="col-md-6 mb-3">
+          <label htmlFor="floating_first_name" className="form-label">First Name</label>
+          <input type="text" className="form-control" id="floating_first_name" name="floating_first_name" required />
         </div>
-        <div className={styles.formGroup}>
-          <label>Password:</label>
-          <input type="password" name="password" value={formData.password} onChange={handleChange} required />
+
+        <div className="col-md-6 mb-3">
+          <label htmlFor="floating_last_name" className="form-label">Last Name</label>
+          <input type="text" className="form-control" id="floating_last_name" name="floating_last_name" required />
         </div>
-        <button type="submit" className={styles.submitBtn}>
-          Login
-        </button>
-      </form>
-    </div>
+      </div>
+
+      <div className="row">
+        <div className="col-md-6 mb-3">
+          <label htmlFor="floating_phone" className="form-label">Phone Number (123-456-7890)</label>
+          <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" className="form-control" id="floating_phone" name="floating_phone" required />
+        </div>
+
+        <div className="col-md-6 mb-3">
+          <label htmlFor="floating_company" className="form-label">Company (Ex. Google)</label>
+          <input type="text" className="form-control" id="floating_company" name="floating_company" required />
+        </div>
+      </div>
+
+      <button type="submit" className="btn btn-primary">Submit</button>
+    </form>
   );
 };
 
