@@ -1,8 +1,9 @@
+import { SignupForm } from "@components/index";
 
 export default function Register() {
   return (
     <div>
-      Register
+      <SignupForm/>
     </div>
   )
 }

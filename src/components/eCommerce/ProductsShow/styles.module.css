@@ -1,0 +1,232 @@
+.productList {
+  padding: 20px;
+}
+
+.sidebar {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  height: 100%;
+  position: sticky;
+  top: 20px;
+}
+
+.filter h5 {
+  margin-bottom: 10px;
+}
+
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.productCard {
+  transition: transform 0.2s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.productCard:hover {
+  transform: scale(1.05);
+}
+
+.cardImageWrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  overflow: hidden;
+}
+
+.cardImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.favoriteIcon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  padding: 5px;
+  transition: background 0.3s;
+}
+
+.favoriteIcon:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+.cardTitle {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  height: 4.2rem;
+  overflow: hidden;
+}
+
+.cardPrice {
+  font-size: 1rem;
+  background-color: black;
+  padding: 3px;
+  width: fit-content;
+  color: #faf9f9;
+  margin-bottom: 0;
+}
+
+.closeButton {
+  display: none;
+}
+
+.filterIcon {
+  position: fixed;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 1050;
+}
+
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: conic-gradient(
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 30%,
+    red 30%,
+    red 70%,
+    rgba(255, 255, 255, 0) 70%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  position: relative;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); 
+}
+
+.spinner::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: white; 
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@media (max-width: 768px) {
+  .productContainer {
+    flex-direction: column; 
+    padding: 10px;
+  }
+
+  .imageGallery {
+    margin-bottom: 20px;
+  }
+
+  .mainImage {
+    max-width: 100%; 
+  }
+
+  .thumbnail {
+    width: 60px; 
+    height: 60px;
+  }
+
+  .productName {
+    font-size: 2rem;
+  }
+
+  .productDescription {
+    font-size: 1rem;
+  }
+
+  .price {
+    font-size: 1.5rem; 
+  }
+
+  .addToCartButton {
+    width: 100%; 
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 767.98px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    z-index: 99999999999;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .showSidebar {
+    transform: translateX(0);
+  }
+
+  .hideSidebar {
+    transform: translateX(-100%);
+  }
+
+  .closeButton {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    padding: 5px;
+    transition: background 0.3s;
+  }
+
+  .closeButton:hover {
+    background: rgba(255, 255, 255, 1);
+  }
+}
+.filterIcon {
+  position: fixed;
+  top: 50%;
+  left: 0px;
+  transform: translateY(-50%);
+  z-index: 1001;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+

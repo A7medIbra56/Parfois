@@ -1,8 +1,10 @@
+import { ProductsShow } from "@components/index";
+
 
 export default function Products() {
   return (
     <div>
-      Products
+      <ProductsShow/>
     </div>
   )
 }
