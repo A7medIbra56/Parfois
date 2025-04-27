@@ -21,9 +21,6 @@ const LoginForm: React.FC = () => {
       {
      
         navigate('/'); 
-      }else
-      {
-
       }
     
       
@@ -39,7 +36,7 @@ const LoginForm: React.FC = () => {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="container mt-5" style={{ maxWidth:"650px" ,  marginBottom : '200px' , marginTop: '200px'}}>
+    <form onSubmit={formik.handleSubmit} className="container mt-5" style={{ maxWidth:"700px" ,  marginBottom : '200px' , marginTop: '200px'}}>
       <div className="mb-3">
         <label htmlFor="email" className="form-label">Email address</label>
         <input
