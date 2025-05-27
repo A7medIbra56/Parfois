@@ -1,7 +1,8 @@
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import React from 'react';
+import React, { useContext } from 'react';
 import axios from 'axios';
+import { UserContext } from '@context/UserContext';
 
 interface FormValues {
 
@@ -12,19 +13,18 @@ interface FormValues {
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate();
+  let {setuserLogin}  :any = useContext(UserContext)
 
-  
   const handleSignup = async (values: FormValues) => {
     
       const { data } = await axios.post("https://ecommerce.routemisr.com/api/v1/auth/signin", values);
+
       if(data.message === "success")
       {
-     
-        navigate('/'); 
+        localStorage.setItem("userToken" , data.token)
+        setuserLogin(data.token)
+        navigate("/")
       }
-    
-      
-    
   };
 
   const formik = useFormik<FormValues>({

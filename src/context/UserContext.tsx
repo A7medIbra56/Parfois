@@ -1,19 +1,25 @@
 import React, { createContext, useState, ReactNode } from 'react';
 
+// Define the context type
+type UserContextType = {
+  userLogin:  any;
+  setuserLogin: React.Dispatch<React.SetStateAction< null>>;
+};
 
+// Create context with proper typing and initial value
+export let UserContext = createContext<UserContextType | null>(null);
 
-export let MyContext = createContext();
-
-interface MyContextProviderProps {
+// Define props for the provider component
+type UserProviderProps = {
   children: ReactNode;
-}
+};
 
-export const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
-let [userLogin , setUserLogin] = useState(null)
+export const UserProvider = ({ children }: UserProviderProps) => {
+  const [userLogin, setuserLogin] = useState<any>(null);
 
   return (
-    <MyContext.Provider value={{ userLogin,setUserLogin }}>
+    <UserContext.Provider value={{ userLogin, setuserLogin }}>
       {children}
-    </MyContext.Provider>
+    </UserContext.Provider>
   );
 };
