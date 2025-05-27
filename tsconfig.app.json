@@ -25,7 +25,8 @@
       "@styles/*": ["src/styles/*"],
       "@layouts/*": ["src/layouts/*"],
       "@util/*": ["src/util/*"],
-      "@services/*": ["src/services/*"]
+      "@services/*": ["src/services/*"],
+      "@context/*": ["src/context/*"]
     },
     /* Linting */
     "strict": true,
