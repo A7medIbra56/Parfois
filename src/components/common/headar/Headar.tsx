@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import styles from "./styles.module.css";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
@@ -8,26 +8,25 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { BsSearch } from "react-icons/bs";
 import { HeaderBasket, PersonIcon, Nav_Link } from "@components/index";
 import { NavLink, useNavigate } from "react-router-dom";
+import { UserContext } from "@context/UserContext";
 
 function Header() {
   const [showLoginOptions, setShowLoginOptions] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+
   const navigate = useNavigate();
+  let {userLogin} :any = useContext(UserContext)
+  let {setuserLogin}  :any = useContext(UserContext)
 
-  useEffect(() => {
-    const checkLogin = () => {
-      setIsLoggedIn(!!localStorage.getItem("token"));
-    };
-
-    window.addEventListener("storage", checkLogin);
-    return () => window.removeEventListener("storage", checkLogin);
-  }, []);
+useEffect(() => {
+  if (setuserLogin) {
+    setuserLogin(localStorage.getItem("userToken"))
+  }
+}, [setuserLogin]);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-    window.dispatchEvent(new Event("storage")); 
+    localStorage.removeItem("userToken");
     navigate("/login");
+    setuserLogin(null)
   };
 
   return (
@@ -96,12 +95,8 @@ function Header() {
 
       {showLoginOptions && (
         <div className={styles.dropdownMenu}>
-          {isLoggedIn ? (
-            <Nav.Link as="button" onClick={handleLogout} className={styles.dropdownItem}>
-              Logout
-            </Nav.Link>
-          ) : (
-            <>
+          {userLogin  == null ? (
+                <>
               <Nav.Link as={NavLink} to="/login" className={styles.dropdownItem}>
                 Login
               </Nav.Link>
@@ -109,6 +104,10 @@ function Header() {
                 Register
               </Nav.Link>
             </>
+          ) : (
+            <Nav.Link as="button" onClick={handleLogout} className={styles.dropdownItem}>
+              Logout
+            </Nav.Link>
           )}
         </div>
       )}
