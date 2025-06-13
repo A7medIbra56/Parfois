@@ -11,9 +11,7 @@ function Nav_Link() {
         <Nav.Link as={NavLink} to="/">
           Home
         </Nav.Link>
-        <Nav.Link as={NavLink} to="/cart">
-          Cart
-        </Nav.Link>
+
         <Nav.Link as={NavLink} to="/wishlist">
           Wishlist
         </Nav.Link>

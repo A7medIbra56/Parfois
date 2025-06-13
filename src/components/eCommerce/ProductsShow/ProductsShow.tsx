@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState  } from "react";
 import {
   Container,
   Row,
@@ -12,6 +12,8 @@ import styles from "./styles.module.css";
 import { ApiGetProducts } from "@services/index";
 import { AiFillHeart, AiOutlineHeart, AiOutlineClose } from "react-icons/ai";
 import { RiApps2Fill } from "react-icons/ri";
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 interface Product {
   id: string;
@@ -38,6 +40,7 @@ const ProductsShow: React.FC = () => {
   const [priceRange, setPriceRange] = useState<number>(3000000);
   const [sortOption, setSortOption] = useState<string>("");
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
+  let navigate = useNavigate()
 
   useEffect(() => {
     const getData = async () => {
@@ -64,6 +67,34 @@ const ProductsShow: React.FC = () => {
     };
     getData();
   }, []);
+// Add to Cart funcation 
+async function Add_Cart(productId: string) {
+  try {
+    const res = await axios.post(
+      'https://ecommerce.routemisr.com/api/v1/cart',
+      {
+        productId: productId,
+      },
+      {
+        headers: {
+          token: localStorage.getItem("userToken") || "",
+        },
+      }
+    );
+    console.log("✅ Product added:", res.data);
+    return res.data; 
+  } catch (error: any) {
+    if (error.response) {
+     
+      navigate("login")
+    } else if (error.request) {
+      navigate("login")
+     
+    } else {
+        navigate("login")
+    }
+  }
+}
 
   const toggleFavorite = (id: string) => {
     setFavorites((prevFavorites) =>
@@ -105,6 +136,8 @@ const ProductsShow: React.FC = () => {
   } else if (sortOption === "highToLow") {
     filteredProducts = filteredProducts.sort((a, b) => b.price - a.price);
   }
+
+
 
   return (
     <Container fluid className={styles.productList}>
@@ -193,7 +226,7 @@ const ProductsShow: React.FC = () => {
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((item) => (
                   <Col key={item.id} xs={12} sm={6} md={4} lg={3}>
-                    <Nav.Link as={NavLink} to={`/productDetails/${item.id}`}>
+                   
                       <Card className={`${styles.productCard} h-100`}>
                         <div className={styles.cardImageWrapper}>
                           <Card.Img
@@ -214,15 +247,18 @@ const ProductsShow: React.FC = () => {
                           </div>
                         </div>
                         <Card.Body className="d-flex flex-column">
-                          <Card.Title className={styles.cardTitle}>
+                           <Nav.Link as={NavLink} to={`/productDetails/${item.id}`}>
+                           <Card.Title className={styles.cardTitle}>
                             {item.title}
                           </Card.Title>
+                           </Nav.Link>
                           <Card.Text className={styles.cardPrice}>
                             {item.price} EGP
-                          </Card.Text>
+                          </Card.Text>                         
+                             <button onClick={() => Add_Cart(item.id)} className={styles.CartBtn}>Add To Cart</button>
                         </Card.Body>
                       </Card>
-                    </Nav.Link>
+                   
                   </Col>
                 ))
               ) : (

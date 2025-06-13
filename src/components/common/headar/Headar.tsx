@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import styles from "./styles.module.css";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
@@ -17,11 +17,6 @@ function Header() {
   let {userLogin} :any = useContext(UserContext)
   let {setuserLogin}  :any = useContext(UserContext)
 
-useEffect(() => {
-  if (setuserLogin) {
-    setuserLogin(localStorage.getItem("userToken"))
-  }
-}, [setuserLogin]);
 
   const handleLogout = () => {
     localStorage.removeItem("userToken");

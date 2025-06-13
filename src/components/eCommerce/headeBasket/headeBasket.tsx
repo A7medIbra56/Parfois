@@ -1,12 +1,16 @@
-import { FaShoppingCart } from 'react-icons/fa';
-import styles from './styles.module.css'; 
-const {container , badge , icon } = styles
+import { FaShoppingCart } from "react-icons/fa";
+import styles from "./styles.module.css";
+import { Nav } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
+const { container, badge, icon } = styles;
 const HeaderBasket = () => {
   return (
-    <div className={container}>
-      <FaShoppingCart className={icon} />
+    <Nav.Link as={NavLink} to="/cart">
+      <div className={container}>
+        <FaShoppingCart className={icon} />
         <span className={badge}>0</span>
-    </div>
+      </div>
+    </Nav.Link>
   );
 };
 export default HeaderBasket;

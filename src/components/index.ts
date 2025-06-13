@@ -8,5 +8,6 @@ import SignupForm from "./forms/signupForm/SignupForm";
 import LoginForm from "./forms/loginForm/LoginForm";
 import ProductDetails from "./eCommerce/productDetails/ProductDetails";
 import Footer from "./common/footer/Footer";
+import CartPage from "./eCommerce/cart/CartPage";
 
-export {HeaderBasket , PersonIcon , Nav_Link ,Carousel  , Brand   , ProductsShow , SignupForm,LoginForm , ProductDetails , Footer}
+export {HeaderBasket , PersonIcon , Nav_Link ,Carousel  , Brand   , ProductsShow , SignupForm,LoginForm , ProductDetails , Footer ,CartPage}

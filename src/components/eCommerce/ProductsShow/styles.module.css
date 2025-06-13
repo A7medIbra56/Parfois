@@ -77,6 +77,11 @@
   margin-bottom: 10px;
   height: 4.2rem;
   overflow: hidden;
+
+}
+.cardTitle:hover
+{
+  text-decoration:underline
 }
 
 .cardPrice {
@@ -136,7 +141,19 @@
   border-radius: 50%;
   background: white; 
 }
+.CartBtn
+{
+margin-top: 10px;
+font-family: bold;
+background-color: #ffff;
+border:  1px solid rgba(0, 0, 0, 0.5);
+}
+.CartBtn:hover
+{
+   background: rgb(0, 0, 0); 
+   color: #f8f9fa;
 
+}
 @keyframes spin {
   0% {
     transform: rotate(0deg);
