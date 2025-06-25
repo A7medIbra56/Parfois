@@ -1,8 +1,9 @@
+import { WishlistProductD } from "@components/index";
 
 export default function Wishlist() {
   return (
     <div>
-      Wishlist
+     < WishlistProductD/>
     </div>
   )
 }

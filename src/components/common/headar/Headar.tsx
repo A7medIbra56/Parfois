@@ -16,10 +16,13 @@ function Header() {
   const navigate = useNavigate();
   let {userLogin} :any = useContext(UserContext)
   let {setuserLogin}  :any = useContext(UserContext)
+  let {setCounteCart}  :any = useContext(UserContext)
 
 
   const handleLogout = () => {
     localStorage.removeItem("userToken");
+    localStorage.removeItem("NumberCart");
+    setCounteCart(0)
     navigate("/login");
     setuserLogin(null)
   };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState  } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Container,
   Row,
@@ -7,13 +7,13 @@ import {
   Form,
   Nav,
 } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 import { ApiGetProducts } from "@services/index";
 import { AiFillHeart, AiOutlineHeart, AiOutlineClose } from "react-icons/ai";
 import { RiApps2Fill } from "react-icons/ri";
-import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import { UserContext } from "@context/UserContext";
 
 interface Product {
   id: string;
@@ -37,10 +37,24 @@ const ProductsShow: React.FC = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<number>(3000000);
+  const [priceRange, setPriceRange] = useState<number>(300000);
   const [sortOption, setSortOption] = useState<string>("");
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
-  let navigate = useNavigate()
+  const [addingToCart, setAddingToCart] = useState<string | null>(null); 
+
+  const { setCounteCart } = useContext<any>(UserContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedFavorites = localStorage.getItem("favorites");
+    if (storedFavorites) {
+      setFavorites(JSON.parse(storedFavorites));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
 
   useEffect(() => {
     const getData = async () => {
@@ -50,58 +64,103 @@ const ProductsShow: React.FC = () => {
         setData(products);
 
         const uniqueCategories = Array.from(
-          new Map(
-            products.map((item) => [item.category._id, item.category])
-          ).values()
-        ).map((category: { _id: string; name: string }) => ({
+          new Map(products.map((item) => [item.category._id, item.category])).values()
+        ).map((category) => ({
           id: category._id,
           name: category.name,
         }));
 
         setCategories(uniqueCategories);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching products", error);
       } finally {
         setLoading(false);
       }
     };
+
     getData();
   }, []);
-// Add to Cart funcation 
-async function Add_Cart(productId: string) {
-  try {
-    const res = await axios.post(
-      'https://ecommerce.routemisr.com/api/v1/cart',
-      {
-        productId: productId,
-      },
-      {
+
+  const getNumberCart = async () => {
+    try {
+      const res = await axios.get("https://ecommerce.routemisr.com/api/v1/cart", {
         headers: {
           token: localStorage.getItem("userToken") || "",
         },
-      }
-    );
-    console.log("✅ Product added:", res.data);
-    return res.data; 
-  } catch (error: any) {
-    if (error.response) {
-     
-      navigate("login")
-    } else if (error.request) {
-      navigate("login")
-     
-    } else {
-        navigate("login")
-    }
-  }
-}
+      });
 
-  const toggleFavorite = (id: string) => {
+      const total = res.data.data.products.reduce(
+        (acc: number, item: any) => acc + item.count,
+        0
+      );
+      setCounteCart(total);
+    } catch (error) {
+      console.error("Error fetching cart count", error);
+    }
+  };
+
+  useEffect(() => {
+    getNumberCart();
+  }, []);
+
+  const Add_Cart = async (productId: string) => {
+    try {
+      setAddingToCart(productId); 
+      await axios.post(
+        "https://ecommerce.routemisr.com/api/v1/cart",
+        { productId },
+        {
+          headers: {
+            token: localStorage.getItem("userToken") || "",
+          },
+        }
+      );
+      getNumberCart();
+    } catch (error: any) {
+      if (error.response) {
+        navigate("login");
+      }
+    } finally {
+      setAddingToCart(null); 
+    }
+  };
+
+  const toggleFavorite = async (productId: string) => {
+    const isFavorited = favorites.includes(productId);
+
     setFavorites((prevFavorites) =>
-      prevFavorites.includes(id)
-        ? prevFavorites.filter((favId) => favId !== id)
-        : [...prevFavorites, id]
+      isFavorited
+        ? prevFavorites.filter((id) => id !== productId)
+        : [...prevFavorites, productId]
     );
+
+    const token = localStorage.getItem("userToken");
+
+    if (!token) {
+      console.log("Saved favorite locally. User not logged in.");
+      return;
+    }
+
+    try {
+      if (isFavorited) {
+        await axios.delete(
+          `https://ecommerce.routemisr.com/api/v1/wishlist/${productId}`,
+          {
+            headers: { token },
+          }
+        );
+      } else {
+        await axios.post(
+          "https://ecommerce.routemisr.com/api/v1/wishlist",
+          { productId },
+          {
+            headers: { token },
+          }
+        );
+      }
+    } catch (error: any) {
+      console.error("Wishlist Error:", error);
+    }
   };
 
   const handleCategoryChange = (categoryId: string) => {
@@ -137,15 +196,10 @@ async function Add_Cart(productId: string) {
     filteredProducts = filteredProducts.sort((a, b) => b.price - a.price);
   }
 
-
-
   return (
     <Container fluid className={styles.productList}>
       <Row>
-        <div
-          className={`${styles.filterIcon} d-md-none`}
-          onClick={toggleSidebar}
-        >
+        <div className={`${styles.filterIcon} d-md-none`} onClick={toggleSidebar}>
           <RiApps2Fill size={24} />
         </div>
 
@@ -216,49 +270,58 @@ async function Add_Cart(productId: string) {
             />
           </div>
         </Col>
+
         <Col md={9}>
           {loading ? (
-           <div className={styles.spinnerContainer}>
-           <div className={styles.spinner}></div>
-         </div>
+            <div className={styles.spinnerContainer}>
+              <div className={styles.spinner}></div>
+            </div>
           ) : (
             <Row className="g-4">
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((item) => (
                   <Col key={item.id} xs={12} sm={6} md={4} lg={3}>
-                   
-                      <Card className={`${styles.productCard} h-100`}>
-                        <div className={styles.cardImageWrapper}>
-                          <Card.Img
-                            variant="top"
-                            src={item.imageCover}
-                            alt={item.title}
-                            className={styles.cardImage}
-                          />
-                          <div
-                            className={styles.favoriteIcon}
-                            onClick={() => toggleFavorite(item.id)}
-                          >
-                            {favorites.includes(item.id) ? (
-                              <AiFillHeart color="red" size={24} />
-                            ) : (
-                              <AiOutlineHeart color="gray" size={24} />
-                            )}
-                          </div>
+                    <Card className={`${styles.productCard} h-100`}>
+                      <div className={styles.cardImageWrapper}>
+                        <Card.Img
+                          variant="top"
+                          src={item.imageCover}
+                          alt={item.title}
+                          className={styles.cardImage}
+                        />
+                        <div
+                          className={styles.favoriteIcon}
+                          onClick={() => toggleFavorite(item.id)}
+                        >
+                          {favorites.includes(item.id) ? (
+                            <AiFillHeart color="red" size={24} />
+                          ) : (
+                            <AiOutlineHeart color="gray" size={24} />
+                          )}
                         </div>
-                        <Card.Body className="d-flex flex-column">
-                           <Nav.Link as={NavLink} to={`/productDetails/${item.id}`}>
-                           <Card.Title className={styles.cardTitle}>
+                      </div>
+                      <Card.Body className="d-flex flex-column">
+                        <Nav.Link as={NavLink} to={`/productDetails/${item.id}`}>
+                          <Card.Title className={styles.cardTitle}>
                             {item.title}
                           </Card.Title>
-                           </Nav.Link>
-                          <Card.Text className={styles.cardPrice}>
-                            {item.price} EGP
-                          </Card.Text>                         
-                             <button onClick={() => Add_Cart(item.id)} className={styles.CartBtn}>Add To Cart</button>
-                        </Card.Body>
-                      </Card>
-                   
+                        </Nav.Link>
+                        <Card.Text className={styles.cardPrice}>
+                          {item.price} EGP
+                        </Card.Text>
+                        <button
+                          onClick={() => Add_Cart(item.id)}
+                          className={styles.CartBtn}
+                          disabled={addingToCart === item.id}
+                        >
+                          {addingToCart === item.id ? (
+                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                          ) : (
+                            "Add To Cart"
+                          )}
+                        </button>
+                      </Card.Body>
+                    </Card>
                   </Col>
                 ))
               ) : (

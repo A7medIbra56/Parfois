@@ -9,5 +9,6 @@ import LoginForm from "./forms/loginForm/LoginForm";
 import ProductDetails from "./eCommerce/productDetails/ProductDetails";
 import Footer from "./common/footer/Footer";
 import CartPage from "./eCommerce/cart/CartPage";
+import WishlistProductD from "./eCommerce/wishlist/WishlistProductD";
 
-export {HeaderBasket , PersonIcon , Nav_Link ,Carousel  , Brand   , ProductsShow , SignupForm,LoginForm , ProductDetails , Footer ,CartPage}
+export {HeaderBasket , PersonIcon , Nav_Link ,Carousel  , Brand   , ProductsShow , SignupForm,LoginForm , ProductDetails , Footer ,CartPage, WishlistProductD}

@@ -3,6 +3,8 @@ import React, { createContext, useState, ReactNode, useEffect } from 'react';
 // Define the context type
 type UserContextType = {
   userLogin: any;
+  counteCart:number;
+  setCounteCart: React.Dispatch<React.SetStateAction<number>>;
   setuserLogin: React.Dispatch<React.SetStateAction<null>>;
 };
 
@@ -16,6 +18,9 @@ type UserProviderProps = {
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [userLogin, setuserLogin] = useState<any>(null);
+  const [counteCart, setCounteCart] = useState<number>(
+  Number(localStorage.getItem("NumberCart") ?? 0)
+);
 
   useEffect(() => {
     if (setuserLogin) {
@@ -24,7 +29,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   }, [setuserLogin]);
 
   return (
-    <UserContext.Provider value={{ userLogin, setuserLogin }}>
+    <UserContext.Provider value={{ userLogin, setuserLogin , counteCart , setCounteCart }}>
       {children}
     </UserContext.Provider>
   );

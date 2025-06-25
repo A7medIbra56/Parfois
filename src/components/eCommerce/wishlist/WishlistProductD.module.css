@@ -1,0 +1,20 @@
+.cartContainer {
+  padding: 2rem 0;
+}
+
+.cartCard {
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease-in-out;
+}
+
+.cartCard:hover {
+  transform: translateY(-5px);
+}
+
+.loadingContainer {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
